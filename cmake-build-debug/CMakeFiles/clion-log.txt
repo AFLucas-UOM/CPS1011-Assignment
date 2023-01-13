@@ -1,4 +1,1 @@
-"/Users/afl/Library/Application Support/JetBrains/Toolbox/apps/CLion/ch-0/222.4345.21/CLion.app/Contents/bin/cmake/mac/bin/cmake" -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" -S "/Users/afl/Documents/Uni/Lectures/SEM1/Programming in C/Project_C" -B "/Users/afl/Documents/Uni/Lectures/SEM1/Programming in C/Project_C/cmake-build-debug"
--- Configuring done
--- Generating done
--- Build files have been written to: /Users/afl/Documents/Uni/Lectures/SEM1/Programming in C/Project_C/cmake-build-debug
+CMakeLists.txt not found in /Users/afl/Documents/Uni/Lectures/SEM1/Programming in C/Project_C Select CMakeLists.txt

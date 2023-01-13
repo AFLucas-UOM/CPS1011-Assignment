@@ -1,4 +1,0 @@
-/Users/afl/Documents/Uni/Lectures/SEM1/Programming in C/Project_C/cmake-build-debug/CMakeFiles/main.dir
-/Users/afl/Documents/Uni/Lectures/SEM1/Programming in C/Project_C/cmake-build-debug/CMakeFiles/Menu.dir
-/Users/afl/Documents/Uni/Lectures/SEM1/Programming in C/Project_C/cmake-build-debug/CMakeFiles/edit_cache.dir
-/Users/afl/Documents/Uni/Lectures/SEM1/Programming in C/Project_C/cmake-build-debug/CMakeFiles/rebuild_cache.dir
