@@ -1,4 +1,4 @@
-"/Users/afl/Library/Application Support/JetBrains/Toolbox/apps/CLion/ch-0/222.4345.21/CLion.app/Contents/bin/cmake/mac/bin/cmake" -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" -S "/Users/afl/Documents/Uni/Lectures/SEM1/Programming in C/Project_C/Task1" -B "/Users/afl/Documents/Uni/Lectures/SEM1/Programming in C/Project_C/Task1/cmake-build-debug"
+"/Users/afl/Library/Application Support/JetBrains/Toolbox/apps/CLion/ch-0/222.4345.21/CLion.app/Contents/bin/cmake/mac/bin/cmake" -DCMAKE_BUILD_TYPE=Debug "-DCMAKE_MAKE_PROGRAM=/Users/afl/Library/Application Support/JetBrains/Toolbox/apps/CLion/ch-0/222.4345.21/CLion.app/Contents/bin/ninja/mac/ninja" -G Ninja -S "/Users/afl/Documents/Uni/Lectures/SEM1/Programming in C/Project_C/Task1" -B "/Users/afl/Documents/Uni/Lectures/SEM1/Programming in C/Project_C/Task1/cmake-build-debug"
 -- Configuring done
 -- Generating done
 -- Build files have been written to: /Users/afl/Documents/Uni/Lectures/SEM1/Programming in C/Project_C/Task1/cmake-build-debug

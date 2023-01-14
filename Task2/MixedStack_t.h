@@ -41,11 +41,6 @@ void initMixedStack(MixedStack* stack) {
 
 // Destroy an existing mixed stack and release memory resources [deinitMixedStack]
 void deinitMixedStack(MixedStack* stack) {
-    if(stack->top == NULL)
-    {
-        printf("Error: The stack is already empty!!");
-        return;
-    }
     // Traverse the stack and free each element
     MixedStack_elm* current = stack->top;
     while (current != NULL) {
@@ -106,8 +101,8 @@ MixedStack_elm* pop(MixedStack* stack) {
 // Returns the top element on the stack without removing it [peek]
 MixedStack_elm* peek(MixedStack* stack) {
     if (stack->top == NULL) {
-        printf("Error: Stack is empty!!");
-        return NULL;
+        return "Error: Stack is empty!!";
+
     }
     // Get the element on top of the stack
     MixedStack_elm* top_element = stack->top;
@@ -144,7 +139,7 @@ int isFull(MixedStack* stack) {
 }
 
 // export the stack to a text file [export] [TASK2QB]
-void export(MixedStack* stack, void (*decoder)(void*, char*), char* filename) {
+void export(MixedStack* stack, void (*int_decoder)(void*, char*), void (*string_decoder)(void*, char*), char* filename) {
     FILE* file = fopen(filename, "w");
     if (file == NULL) {
         printf("Error: Failed to open file %s for writing!!", filename);
@@ -155,12 +150,12 @@ void export(MixedStack* stack, void (*decoder)(void*, char*), char* filename) {
         // Decode the element value to text
         char text[64];
         if (current->type == INTEGER_TYPE) {
-            decoder(&current->value.int_value, text);
-        } else {
-            decoder(current->value.string_value, text);
+            int_decoder(&current->value.int_value, text);
+            fprintf(file, "%s\n", text);
+        } else if (current->type == STRING_TYPE) {
+            string_decoder(current->value.string_value, text);
+            fprintf(file, "%s\n", text);
         }
-        // Write the text to the file
-        fprintf(file, "%s\n", text);
         // Move to the next element
         current = current->next;
     }

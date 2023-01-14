@@ -1,4 +1,3 @@
-/Users/afl/Documents/Uni/Lectures/SEM1/Programming in C/Project_C/Task2/cmake-build-debug/CMakeFiles/main.dir
 /Users/afl/Documents/Uni/Lectures/SEM1/Programming in C/Project_C/Task2/cmake-build-debug/CMakeFiles/MixedStack.dir
 /Users/afl/Documents/Uni/Lectures/SEM1/Programming in C/Project_C/Task2/cmake-build-debug/CMakeFiles/edit_cache.dir
 /Users/afl/Documents/Uni/Lectures/SEM1/Programming in C/Project_C/Task2/cmake-build-debug/CMakeFiles/rebuild_cache.dir

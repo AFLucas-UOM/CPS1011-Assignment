@@ -3,9 +3,6 @@ project(Project_C_Task1)
 
 set(CMAKE_C_STANDARD 11)
 
-set(SOURCE_PROJ1 main.c) # testing only
-add_executable(main ${SOURCE_PROJ1}) #testing only
-
 set(SOURCE_PROJ1 PROJ_task1q3_menu.c)
 add_executable(Menu ${SOURCE_PROJ1})
 
