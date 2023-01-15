@@ -140,7 +140,7 @@ CMAKE_PROJECT_DESCRIPTION:STATIC=
 CMAKE_PROJECT_HOMEPAGE_URL:STATIC=
 
 //Value Computed by CMake
-CMAKE_PROJECT_NAME:STATIC=Project_C_Task2
+CMAKE_PROJECT_NAME:STATIC=MixedStack
 
 //Path to a program.
 CMAKE_RANLIB:FILEPATH=/Library/Developer/CommandLineTools/usr/bin/ranlib
@@ -203,6 +203,15 @@ CMAKE_STRIP:FILEPATH=/Library/Developer/CommandLineTools/usr/bin/strip
 // during the make.  This is useful for debugging only. With Visual
 // Studio IDE projects all commands are done without /nologo.
 CMAKE_VERBOSE_MAKEFILE:BOOL=FALSE
+
+//Value Computed by CMake
+MixedStack_BINARY_DIR:STATIC=/Users/afl/Documents/Uni/Lectures/SEM1/Programming in C/Project_C/Task2/cmake-build-debug
+
+//Value Computed by CMake
+MixedStack_IS_TOP_LEVEL:STATIC=ON
+
+//Value Computed by CMake
+MixedStack_SOURCE_DIR:STATIC=/Users/afl/Documents/Uni/Lectures/SEM1/Programming in C/Project_C/Task2
 
 //Value Computed by CMake
 Project_C_Task2_BINARY_DIR:STATIC=/Users/afl/Documents/Uni/Lectures/SEM1/Programming in C/Project_C/Task2/cmake-build-debug

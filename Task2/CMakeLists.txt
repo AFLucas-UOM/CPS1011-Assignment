@@ -1,8 +1,9 @@
 cmake_minimum_required(VERSION 3.23)
-project(Project_C_Task2)
+project(MixedStack)
 
 set(CMAKE_C_STANDARD 11)
 
-set(SOURCE_PROJ2 MixedStack.c)
-add_executable(MixedStack ${SOURCE_PROJ2})
-
+set(SOURCE_FILES MixedStack.c test_driver.c)
+add_library(MixedStack SHARED ${SOURCE_FILES})
+add_executable(test_driver ${SOURCE_FILES})
+target_link_libraries(test_driver MixedStack)

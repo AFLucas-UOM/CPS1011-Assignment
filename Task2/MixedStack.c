@@ -2,224 +2,148 @@
 #include <ctype.h> // to use tolower() function
 #include <unistd.h> // to be able to use sleep function
 #include <stdbool.h>// to use boolean
+#include <string.h> // to use strcspn
 #include "MixedStack_t.h" // Link to MixedStack_t.h
 
-//decoder int
-void int_decoder(void *value, char *buffer) {
-    snprintf(buffer, 100, "%d", *(int *) value); // copy the int value to buffer
+// Create a new mixed stack and allocate memory resources [initMixedStack]
+void initMixedStack(MixedStack *stack) {
+    // Allocate memory for the new stack
+    stack->top = (MixedStack_elm *) malloc(sizeof(MixedStack_elm));
+    //Error
+    if (stack->top == NULL) {
+        printf("Error: Failed to allocate memory for the stack!!");
+        return;
+    }
+    // Initialize the stack properties
+    stack->top = NULL;
+    stack->size = 0;
 }
 
-//decoder string
-void string_decoder(void *value, char *buffer) {
-    strncpy(buffer, (char *) value, 64); // copy the string value to the buffer
+// Destroy an existing mixed stack and release memory resources [deinitMixedStack]
+void deinitMixedStack(MixedStack *stack) {
+    // Traverse the stack and free each element
+    MixedStack_elm *current = stack->top;
+    while (current != NULL) {
+        MixedStack_elm *temp = current; // create a temporary pointer to the current element
+        current = current->next; // move to next element
+        free(temp); // free memory of the current element
+    }
+    // Reset the stack properties
+    stack->top = NULL;
+    stack->size = 0;
 }
 
-// Main() Function
-int main() {
-    // Create a new mixed stack
-    MixedStack stack;
-    initMixedStack(&stack);
-    int choice;
-    bool end = false; // condition to get out of loop
+// Add an element of some type on top of the mixed stack [push]
+void push(MixedStack *stack, int type, void *value) {
+    // Allocate memory for the new element
+    MixedStack_elm *new_element = (MixedStack_elm *) malloc(sizeof(MixedStack_elm));
+    // Check for NULL pointer
+    if (new_element == NULL) {
+        printf("Error: Failed to allocate memory for the new element!!");
+        return;
+    }
+    new_element->type = type;//set the type of the element
+    // TYPE: INTEGER_TYPE
+    if (type == INTEGER_TYPE) {
+        new_element->value.int_value = *(int *) value;// assign int value to the element
+        // TYPE: STRING_TYPE
+    } else if (type == STRING_TYPE) {
+        strncpy(new_element->value.string_value, (char *) value, 64); // copy the string value to the stack element
+    }
+    new_element->next = stack->top; // set the next element to the top of the stack
 
-    do {
-        printf("\nPlease choose from the following menu:\n");
-        printf("1... Push element\n");
-        printf("2... Pop element \n");
-        printf("3... Export Stack\n");
-        printf("4... Check if stack is empty\n");
-        printf("5... Check if stack is full\n");
-        printf("6... Count stack size\n");
-        printf("7... Peek at top element\n");
-        printf("8... Clear Stack\n");
-        printf("9... Destroy Stack\n");
-        printf("q... Quit\n");
+    // Add the new element to the top of the stack
+    stack->top = new_element;
+    stack->size++; // increase the size of the stack
+}
 
-        printf("Enter your choice: ");
-        choice = tolower(getchar());
-        switch (choice) {
-            case '1': {
-                sleep(0.5); // Pause for 0.5 seconds
-                int type_choice;
-                printf("\nChoose your data type: \n(1)Integer\n(2)String\nChoice: ");
-                scanf("%d", &type_choice);
-                if(type_choice == 1){
-                    printf("Push integer selected...\n");
-                    sleep(1); // Pause for 1 second
-                    int value;
-                    printf("Enter integer value: ");
-                    scanf("%d", &value);
-                    push(&stack, INTEGER_TYPE, &value);
-                    int c;
-                    while ((c = getchar()) != '\n' && c != EOF);
-                    fflush(stdin);
-                    break;
-                }
-                else if (type_choice == 2){
-                    printf("Push string selected...\n");
-                    sleep(1); // Pause for 1 second
-                    char value[64];
-                    printf("Enter string value: ");
-                    scanf("%s", value);
-                    push(&stack, STRING_TYPE, value);
-                    int c;
-                    while ((c = getchar()) != '\n' && c != EOF);
-                    fflush(stdin);
-                    break;
-                }
-                else {
-                    printf("Invalid choice!\n");
-                    printf("\n");
-                    sleep(1); // Pause for 1 second
-                    break;
-                }
-            }
-            case '2': {
-                sleep(0.5); // Pause for 0.5 seconds
-                printf("\nPop element selected...\n");
-                sleep(1); // Pause for 1 second
-                MixedStack_elm *popped_element = pop(&stack);
-                if (popped_element->type == INTEGER_TYPE) {
-                    printf("\nPopped element: '%d'\n", popped_element->value.int_value);
-                } else if (popped_element->type == STRING_TYPE) {
-                    printf("\nPopped element: '%s'\n", popped_element->value.string_value);
-                }
-                sleep(1); // Pause for 1 second
-                int c;
-                while ((c = getchar()) != '\n' && c != EOF);
-                break;
-            }
+// Remove and return the element on top of the mixed stack [pop]
+MixedStack_elm *pop(MixedStack *stack) {
+    // check if stack is empty
+    if (stack->top == NULL) {
+        printf("Error: Stack underflow!!");
+        return NULL;
+    }
+    // Get the element on top of the stack
+    MixedStack_elm *top_element = stack->top;
 
-            case '3': {
-                sleep(0.5); // Pause for 0.5 seconds
-                printf("\nExport stack selected...\n");
-                sleep(1); // Pause for 1 second
-                const char filename[] = "exported_stack.txt";
-                export(&stack, int_decoder, string_decoder, filename);
-                printf("Exported 100%% complete to: %s\n", filename);
-                sleep(1); // Pause for 1 second
-                int c;
-                while ((c = getchar()) != '\n' && c != EOF);
-                break;
-            }
+    // Update the top pointer and stack size
+    stack->top = top_element->next; // set top pointer to the next element
+    stack->size--; // decrease the size of the stack
+    return top_element;
+}
 
-            case '4': {
-                sleep(0.5); // Pause for 0.5 seconds
-                printf("\nCheck if stack is empty selected...\n");
-                sleep(1); // Pause for 1 second
-                char *is_empty = isEmpty(&stack);
-                printf("Is stack empty?");
-                sleep(1); // Pause for 1 second
-                printf(" %s\n", is_empty);
-                sleep(1); // Pause for 1 second
-                int c;
-                while ((c = getchar()) != '\n' && c != EOF);
-                break;
-            }
+// Returns the top element on the stack without removing it [peek]
+MixedStack_elm *peek(MixedStack *stack) {
+    // check if stack is empty
+    if (stack->top == NULL) {
+        return NULL;
+    }
 
-            case '5': {
-                sleep(0.5); // Pause for 0.5 seconds
-                printf("\nCheck if stack is full selected...\n");
-                sleep(1); // Pause for 1 second
-                if (isFull(&stack)) {
-                    printf("Stack is currently full\n");
-                } else {
-                    printf("Stack is not currently full\n");
-                }
-                sleep(1); // Pause for 1 second
-                int c;
-                while ((c = getchar()) != '\n' && c != EOF);
-                break;
-            }
+    // Get the element on top of the stack
+    MixedStack_elm *top_element = stack->top; // create a pointer to the top element
+    return top_element; // return the top element in stack
+}
 
-            case '6': {
-                sleep(0.5); // Pause for 0.5 seconds
-                printf("\nCount stack size selected...\n");
-                sleep(1); // Pause for 1 second
-                int stack_size = count(&stack);
-                printf("Current Stack size: %d\n", stack_size);
-                sleep(1); // Pause for 1 second
-                int c;
-                while ((c = getchar()) != '\n' && c != EOF);
-                break;
-            }
+// Removes all elements from the stack [clear]
+void clear(MixedStack *stack) {
+    // check if stack is empty
+    while (stack->top != NULL) {
+        // Pop all elements from the stack
+        MixedStack_elm *element = pop(stack); // pop the top element of the stack
+        free(element); // free the memory allocated for the element
+    }
+}
 
-            case '7': {
-                sleep(0.5); // Pause for 0.5 seconds
-                printf("\nPeek at top element selected...\n");
-                sleep(1); // Pause for 1 second
-                if (!isEmpty(&stack)){
-                    MixedStack_elm *top_element = peek(&stack);
-                    if (top_element->type == INTEGER_TYPE) {
-                        printf("Top element in Stack is: %d\n", top_element->value.int_value);
-                    } else if (top_element->type == STRING_TYPE) {
-                        printf("Top element in Stack is: '%s'\n", top_element->value.string_value);
-                    }
-                } else {
-                    printf("\nError: Stack is empty!!\n");
-                    sleep(2); // Pause for 1 second
-                }
-                sleep(1); // Pause for 1 second
-                int c;
-                while ((c = getchar()) != '\n' && c != EOF);
-                break;
-            }
+// Returns the number of elements currently stored in the stack [count]
+int count(MixedStack *stack) {
+    return stack->size; // return size of Stack
+}
 
-            case '8': {
-                sleep(0.5); // Pause for 0.5 seconds
-                printf("\nClear Stack selected...\n");
-                sleep(1); // Pause for 1 second
-                clear(&stack);
-                // Check if the stack is empty post Clear function
-                if (isEmpty(&stack)) {
-                    printf("The stack is NOW empty\n");
-                } else {
-                    printf("Error: The stack is still NOT empty\n");
-                }
-                sleep(1); // Pause for 1 second
-                int c;
-                while ((c = getchar()) != '\n' && c != EOF);
-                break;
-            }
+// Returns "yes"" if the stack is empty, "no" otherwise [isEmpty]
+char *isEmpty(MixedStack *stack) {
+    // check if stack is empty
+    if (stack->top == NULL) {
+        return "Yes!!"; // return "Yes" (if stack is empty)
+    } else {
+        return "NO!!"; // return "NO" (if stack is not empty)
+    }
+}
 
-            case '9': {
-                sleep(0.5); // Pause for 0.5 seconds
-                printf("\nDESTROY Stack selected...\n");
-                sleep(1); // Pause for 1 second
-                deinitMixedStack(&stack);
-                // Test isEmpty() function again post deinitMixedStack() function
-                if (isEmpty(&stack)) {
-                    printf("\nStack DESTROYED!!");
-                    sleep(0.5); // Pause for 0.5 seconds
-                    printf("The stack is NOW empty\n");
-                } else {
-                    printf("Error: The stack is still NOT empty\n");
-                }
-                int c;
-                while ((c = getchar()) != '\n' && c != EOF);
-                break;
-            }
+// Returns true if no more memory resources can be allocated for the stack, false otherwise [isFull]
+int isFull() {
+    // Attempt to allocate memory for a new element --> check is full
+    MixedStack_elm *new_element = (MixedStack_elm *) malloc(sizeof(MixedStack_elm));
+    if (new_element == NULL) { // Check if the allocation was successful
+        return 1; // Stack FULL
+    }
+    free(new_element); // Free the newly allocated memory
+    return 0; // Stack NOT full
+}
 
-            case 'q': {
-                sleep(0.5); // Pause for 0.5 seconds
-                printf("\nQuitting...\n");
-                deinitMixedStack(&stack);
-                end = true;
-                int c;
-                while ((c = getchar()) != '\n' && c != EOF);
-                break;
-            }
-
-            default:
-                printf("\nInvalid choice. Please try again.\n");
-                printf("\n");
-                sleep(1); // Pause for 1 second
-                int c;
-                while ((c = getchar()) != '\n' && c != EOF);
-                break;
+// export the stack to a text file [export] [TASK2QB]
+void export(MixedStack *stack, void (*int_decoder)(void *, char *), void (*string_decoder)(void *, char *), char *filename) {
+    FILE *file = fopen(filename, "w");// open file in MODE: writing
+    // in case of error
+    if (file == NULL) {
+        printf("Error: Failed to open file %s for writing!!", filename);
+        return;
+    }
+    MixedStack_elm *current = stack->top;
+    while (current != NULL) {
+        // Decode the element value to text
+        char text[64];
+        //TYPE: Int
+        if (current->type == INTEGER_TYPE) {
+            int_decoder(&current->value.int_value, text); // Decode integer value
+            fprintf(file, "%s\n", text); // write to file
+            //TYPE: String
+        } else if (current->type == STRING_TYPE) {
+            string_decoder(current->value.string_value, text); // Decode string value
+            fprintf(file, "%s\n", text); // write to file
         }
-    }while (!end);
-    sleep(0.5); // Pause for 0.5 seconds
-    printf("Bye :(\n");
-    return 0;
+        // Move to the next element
+        current = current->next;
+    }
+    fclose(file); // close the file
 }

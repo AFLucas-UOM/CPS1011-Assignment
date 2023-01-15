@@ -33,7 +33,7 @@ int matrix() {
             valid_input = false; // keep validation false
             sleep(1);  // Pause for 1 second
             printf("Reloading...\n");
-            sleep(0.5);  // Pause for 0.5 seconds
+            usleep(500000); // Pause for 0.5 seconds
             printf("\n");
         } else
             valid_input = true; // make validation true
