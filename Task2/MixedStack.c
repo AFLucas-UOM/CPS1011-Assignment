@@ -77,7 +77,7 @@ MixedStack_elm *pop(MixedStack *stack) {
 MixedStack_elm *peek(MixedStack *stack) {
     // check if stack is empty
     if (stack->top == NULL) {
-        return NULL;
+        return "Stack empty";
     }
 
     // Get the element on top of the stack
