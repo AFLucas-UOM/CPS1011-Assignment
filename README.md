@@ -1,4 +1,5 @@
 #CPS1011_Project
+NB: Read README.md file in "Display Source" mode
 This is the main repository for the CPS1011 project. It contains the following subdirectories:
 
 |-- .idea: contains configuration files for the IDE.
