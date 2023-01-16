@@ -6,7 +6,6 @@
 
 
 int main(void) {
-
     char str[100]; // Declare string with size 100
     int choice; // Declare variable outside of loop (to be used for user choice
     bool end = false; // condition to get out of loop

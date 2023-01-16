@@ -5,4 +5,3 @@ set(CMAKE_C_STANDARD 11)
 
 set(SOURCE_PROJ1 PROJ_task1q3_menu.c)
 add_executable(Menu ${SOURCE_PROJ1})
-
