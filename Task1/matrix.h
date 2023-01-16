@@ -88,10 +88,11 @@ int matrix() {
         for (int j = 0; j < m2_c; j++) {
             printf("%d ", result[i][j]);
         }
-        printf("\n");
         sleep(1); // Pause for 1 second
         printf("\n");
     }
+    sleep(1); // Pause for 1 second
+    printf("\n");
 
     // Free memory using free function (to free memory post using malloc function)
     // Free memory for matrix 1
